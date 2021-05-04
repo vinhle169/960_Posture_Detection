@@ -8,19 +8,18 @@ points are returned as
 '''
 
 
-def load_model():
+def load_model(path_to_folder):
     # Load model
-    protoFile = 'pose_deploy_linevec.prototxt'
-    modelWeights = 'pose_iter_160000.caffemodel'
+    protoFile = f'{path_to_folder}/pose_deploy_linevec.prototxt'
+    modelWeights = f'{path_to_folder}/pose_iter_160000.caffemodel'
 
     # Read the network into memory
     net = cv2.dnn.readNetFromCaffe(protoFile, modelWeights)
     return net
 
 
-def find_keypoints(image_path, net, threshold):
+def find_keypoints(image_path, net, visualize=True, threshold=0.5):
     frame = cv2.imread(image_path)
-
     inwidth = 256
     inheight = 256
     frame = cv2.resize(frame, (256, 256))
@@ -53,11 +52,12 @@ def find_keypoints(image_path, net, threshold):
 
         if prob > threshold:
             # if we wanted to draw the image
-            # cv2.circle(frame, (int(x), int(y)), 5, (0, 255, 255), thickness=-1, lineType=cv2.FILLED)
-            # cv2.putText(frame, f"{i}", (int(x), int(y)), cv2.FONT_HERSHEY_SIMPLEX, .5, (0, 0, 255), 1, lineType=cv2.LINE_AA)
+            if visualize:
+                cv2.circle(frame, (int(x), int(y)), 5, (0, 255, 255), thickness=-1, lineType=cv2.FILLED)
+                cv2.putText(frame, f"{i}", (int(x), int(y)), cv2.FONT_HERSHEY_SIMPLEX, .5, (0, 0, 255), 1, lineType=cv2.LINE_AA)
 
             # Add the point to the list if the probability is greater than the threshold
             points.append((int(x), int(y)))
         else:
             points.append(None)
-    return points
+    return points, frame
