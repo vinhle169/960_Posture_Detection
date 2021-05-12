@@ -37,8 +37,8 @@ def find_keypoints(image_path, net, visualize=True, threshold=0.5):
     # print(H,W)
     # Empty list to store the detected keypoints
     points = []
-
-    for i in range(16):
+    count = 0
+    for i in range(15):
         # confidence map of corresponding body's part.
         probMap = out[0, i, :, :]
 
@@ -58,6 +58,7 @@ def find_keypoints(image_path, net, visualize=True, threshold=0.5):
 
             # Add the point to the list if the probability is greater than the threshold
             points.append((int(x), int(y)))
+            count += 1
         else:
             points.append(None)
-    return points, frame
+    return points, frame, count

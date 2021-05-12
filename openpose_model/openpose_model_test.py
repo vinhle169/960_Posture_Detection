@@ -7,7 +7,7 @@ modelWeights = 'pose_iter_160000.caffemodel'
 # Read the network into memory
 net = cv2.dnn.readNetFromCaffe(protoFile, modelWeights)
 
-frame = cv2.imread("image_1.jpeg")
+frame = cv2.imread("test.jpeg")
 
 inwidth = 256
 inheight = 256
