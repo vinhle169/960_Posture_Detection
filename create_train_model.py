@@ -34,20 +34,19 @@ class pose_classifier():
         '''
         data, labels, images = [], [], []
         for image in os.listdir(image_path):
-            keypoints, count = self.find_keypoints(f'{image_path}/{image}', visualize=True)
+            keypoints, count = self.find_keypoints(f'{image_path}/{image}', visualize=False)
             if count>=5:
-                print(count)
-                print(image)
                 images.append(image)
                 data.append(keypoints)
                 if 'bad' in image:
                     labels.append(0)
                 elif 'good' in image:
                     labels.append(1)
-        print(len(data))
+
         json_data = {'data': data, 'labels': labels, 'used_images': images}
-        # with open(save_name, 'w') as json_file:
-        #     json.dump(json_data, json_file)
+        print(len(images))
+        with open(save_name, 'w') as json_file:
+            json.dump(json_data, json_file)
 
 
     def build_model(self):
@@ -57,7 +56,10 @@ class pose_classifier():
         pass
 
 if __name__ == '__main__':
-    print('begin')
-    x = pose_classifier('openpose_model')
-    image_path = 'data'
-    x.label_data(image_path)
+    # print('begin')
+    # x = pose_classifier('openpose_model')
+    # image_path = 'data'
+    # x.label_data(image_path)
+    with open('keypoint_data.json') as f:
+        data = json.load(f)
+    print(len(data['used_images']))
