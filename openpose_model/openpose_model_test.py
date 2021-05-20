@@ -7,7 +7,7 @@ modelWeights = 'pose_iter_160000.caffemodel'
 # Read the network into memory
 net = cv2.dnn.readNetFromCaffe(protoFile, modelWeights)
 
-frame = cv2.imread("test.jpeg")
+frame = cv2.imread("good_test.jpg")
 
 inwidth = 256
 inheight = 256
@@ -28,7 +28,7 @@ W = out.shape[3]
 points = []
 threshold = .5
 
-for i in range(16):
+for i in range(15):
     # confidence map of corresponding body's part.
     probMap = out[0, i, :, :]
     print(i)
@@ -50,7 +50,7 @@ for i in range(16):
     else:
         points.append(None)
 
-# cv2.imshow('keypoints', frame)
-# cv2.waitKey(0)
-# cv2.destroyAllWindows()
+cv2.imshow('Body Keypoints(Not Bad Posture)', frame)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
 print(points)
